@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Websocket</title>
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      padding: 0px;
+      width: 1280px;
+      height: 720px;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+    }
+
+    .grid-item {
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      font-size: 0px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!--
+  <iframe
+    src="https://player.twitch.tv/?channel=limmy&muted=true"
+    height="720"
+    width="1280"
+    frameborder="0"
+    scrolling="no"
+    allowfullscreen="false"
+    controls= "false"
+    style="position: absolute; left: 0px; top: 0px;">
+  </iframe>
+  -->
+
+  <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+  <div id="PLAYER" style="position: absolute; left: 0px; top: 0px;"></div>
+  <script type="text/javascript">
+      var options = {
+          width: 1280,
+          height: 720,
+          channel: "RobertHallArt",
+          controls: "false",
+          allowfullscreen: "false",
+          scrolling: "no",
+          frameborder: "0"     
+      };
+      var player = new Twitch.Player("PLAYER", options);
+      player.setVolume(0);
+  </script>
+
+  <div class="grid-container">
+    <div class="grid-item" onclick="sendNum(this)" id="1" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
+    <div class="grid-item" onclick="sendNum(this)" id="2" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
+    <div class="grid-item" onclick="sendNum(this)" id="4" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">4</div>
+    <div class="grid-item" onclick="sendNum(this)" id="3" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">3</div>
+    <!--<div class="grid-item" onclick="sendNum(this)" id="5" style="position: absolute; left: 1100px; top: 600px; width:20px; height:20px">5</div>
+    <div class="grid-item" onclick="sendNum(this)" id="6" style="position: absolute; left: 200px; top: 400px; width:20px; height:20px">6</div>
+    <div class="grid-item" onclick="sendNum(this)" id="7" style="position: absolute; left: 300px; top: 200px; width:20px; height:20px">7</div>
+    <div class="grid-item" onclick="sendNum(this)" id="8" style="position: absolute; left: 900px; top: 100px; width:20px; height:20px">8</div>
+    <div class="grid-item" onclick="sendNum(this)" id="9" style="position: absolute; left: 800px; top: 300px; width:20px; height:20px">9</div>-->
+  </div>
+
+  <!--<button onclick="clearlog()">Clear Logs</button>
+
+  <div style="overflow:scroll; width: 800px; height: 550px; border: solid; border-radius: 9px" id="display"></div>-->
+
+  <script>
+    //var sock =new WebSocket("ws://localhost:5001");
+    var sock =new WebSocket("ws://10.196.251.101:3000");  //replace this address with the one the node.js server prints out. keep port 3000
+    var display=document.getElementById("display")
+    
+    sock.onopen=function(event){
+      //alert("Socket connected succesfully!!!")
+      setTimeout(function(){sock.send('connection succeeded');},1000);
+      display.innerHTML+="connection succeeded <br />";
+    };
+
+    sock.onmessage=function(event){
+    console.log(event);//show received from server data in console of browser
+    display.innerHTML+=event.data+"<br />"; //add incoming message from server to the log screen previous string + new string(message)
+
+    }
+    
+    function myFunction(event) {
+        //sock.send("Hello");
+      if(event.keyCode==13){     //when enter is pressed...
+        var text=document.getElementById('eingabe').value;    //assign value of the entered string to te text variable
+        if(text!=""){     //if text is not an empty string
+      //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
+        sock.send(text);    //send string to server
+        display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
+        document.getElementById('eingabe').value="";     //and clear the input field
+        } else {
+          console.log("empty string not sent")
+        }
+      } 
+    }
+    function clearlog(){
+      display.innerHTML="";
+    }
+
+    function sendNum(_in){
+      console.log(_in.id);
+      sock.send(_in.id);
+    }
+  </script>
+
+</body>
+</html>
