@@ -19,7 +19,47 @@
       font-size: 0px;
       text-align: center;
     }
+
+    .circleA {
+      border-width: 5px;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+    }
+
+    .circle {
+      border-width: 5px;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+    }
+
+    .animateLocal{
+      animation: expandCircleLocal 5.5s;
+    }
+
+    .animateExternal{
+      animation: expandCircleExternal 5.5s;
+    }
+
+    @keyframes expandCircleLocal {
+      100% {border-color: transparent; transform: scale(2);}
+      93% {border-color: red; transform: scale(0.1);}
+      50% {border-color: red;}
+      0% {border-color: transparent; transform: scale(2);}
+    }
+
+    @keyframes expandCircleExternal {
+      100% {border-color: transparent; transform: scale(2);}
+      93% {border-color: blue; transform: scale(0.1);}
+      50% {border-color: blue;}
+      0% {border-color: transparent; transform: scale(2);}
+    }
+
   </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
 
@@ -53,11 +93,23 @@
   </script>
 
   <div class="grid-container">
-    <div class="grid-item" onclick="sendNum(this)" id="1" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
-    <div class="grid-item" onclick="sendNum(this)" id="2" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
-    <div class="grid-item" onclick="sendNum(this)" id="4" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">4</div>
-    <div class="grid-item" onclick="sendNum(this)" id="3" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">3</div>
-    <!--<div class="grid-item" onclick="sendNum(this)" id="5" style="position: absolute; left: 1100px; top: 600px; width:20px; height:20px">5</div>
+
+    <div class="grid-item circle" id="1" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
+    <div class="grid-item circle" id="1" onclick="sendNum(this)" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
+    <div class="grid-item circle" id="2" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
+    <div class="grid-item circle" id="2" onclick="sendNum(this)" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
+    <div class="grid-item circle" id="3" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">3</div>
+    <div class="grid-item circle" id="3" onclick="sendNum(this)" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">3</div>
+    <div class="grid-item circle" id="4" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">4</div>
+    <div class="grid-item circle" id="4" onclick="sendNum(this)" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">4</div>
+
+    <!--
+    
+    <div class="grid-item circleA" onclick="sendNum(this)" id="1" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
+    <div class="grid-item circleA" onclick="sendNum(this)" id="2" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
+    <div class="grid-item circleA" onclick="sendNum(this)" id="4" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">4</div>
+    <div class="grid-item circleA" onclick="sendNum(this)" id="3" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">3</div>
+    <div class="grid-item" onclick="sendNum(this)" id="5" style="position: absolute; left: 1100px; top: 600px; width:20px; height:20px">5</div>
     <div class="grid-item" onclick="sendNum(this)" id="6" style="position: absolute; left: 200px; top: 400px; width:20px; height:20px">6</div>
     <div class="grid-item" onclick="sendNum(this)" id="7" style="position: absolute; left: 300px; top: 200px; width:20px; height:20px">7</div>
     <div class="grid-item" onclick="sendNum(this)" id="8" style="position: absolute; left: 900px; top: 100px; width:20px; height:20px">8</div>
@@ -69,6 +121,23 @@
   <div style="overflow:scroll; width: 800px; height: 550px; border: solid; border-radius: 9px" id="display"></div>-->
 
   <script>
+
+    $(function() {
+      $(".circle")
+        .on("animationend", function(){
+          $(this).removeClass('animateLocal');
+        });
+    });
+
+    $(function() {
+      $(".circle")
+        .on("click", function(){
+          $(this).addClass('animateLocal');
+        })
+    });
+
+    /*
+
     //var sock =new WebSocket("ws://localhost:5001");
     var sock =new WebSocket("ws://34.249.128.145:3000");  //replace this address with the one the node.js server prints out. keep port 3000
     var display=document.getElementById("display")
@@ -107,6 +176,7 @@
       console.log(_in.id);
       sock.send(_in.id);
     }
+    */
   </script>
 
 </body>
