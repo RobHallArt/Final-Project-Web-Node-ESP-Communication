@@ -14,21 +14,8 @@
       top: 0px;
     }
 
-    .grid-item {
-      border: 1px solid rgba(0, 0, 0, 0.8);
-      font-size: 0px;
-      text-align: center;
-    }
-
-    .circleA {
-      border-width: 5px;
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-    }
-
     .circle {
-      border-width: 5px;
+      border: 5px solid rgba(0, 0, 0, 0.8);
       border-radius: 50%;
       width: 100px;
       height: 100px;
@@ -40,6 +27,38 @@
 
     .animateExternal{
       animation: expandCircleExternal 5.5s;
+    }
+
+    #A {
+      position: absolute;
+      left: 400px;
+      top: 100px;
+      width:100px;
+      height:100px
+    }
+
+    #B {
+      position: absolute;
+      left: 800px;
+      top: 300px;
+      width:100px;
+      height:100px
+    }
+
+    #C {
+      position: absolute;
+      left: 200px;
+      top: 600px; 
+      width:100px; 
+      height:100px
+    }
+
+    #D {
+      position: absolute;
+      left: 600px;
+      top: 500px;
+      width:100px;
+      height:100px
     }
 
     @keyframes expandCircleLocal {
@@ -94,14 +113,14 @@
 
   <div class="grid-container">
 
-    <div class="grid-item circle" id="1" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
-    <div class="grid-item circle" id="1" onclick="sendNum(this)" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
-    <div class="grid-item circle" id="2" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
-    <div class="grid-item circle" id="2" onclick="sendNum(this)" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
-    <div class="grid-item circle" id="3" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">3</div>
-    <div class="grid-item circle" id="3" onclick="sendNum(this)" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">3</div>
-    <div class="grid-item circle" id="4" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">4</div>
-    <div class="grid-item circle" id="4" onclick="sendNum(this)" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">4</div>
+    <div class="circle animator" id="A"></div>
+    <div class="circle" id="A" onclick="sendNum(this)"></div>
+    <div class="circle animator" id="B"></div>
+    <div class="circle" id="B" onclick="sendNum(this)"></div>
+    <div class="circle animator" id="C"></div>
+    <div class="circle" id="C" onclick="sendNum(this)"></div>
+    <div class="circle animator" id="D"></div>
+    <div class="circle" id="D" onclick="sendNum(this)"></div>
 
     <!--
     
@@ -114,6 +133,7 @@
     <div class="grid-item" onclick="sendNum(this)" id="7" style="position: absolute; left: 300px; top: 200px; width:20px; height:20px">7</div>
     <div class="grid-item" onclick="sendNum(this)" id="8" style="position: absolute; left: 900px; top: 100px; width:20px; height:20px">8</div>
     <div class="grid-item" onclick="sendNum(this)" id="9" style="position: absolute; left: 800px; top: 300px; width:20px; height:20px">9</div>-->
+
   </div>
 
   <!--<button onclick="clearlog()">Clear Logs</button>
@@ -121,22 +141,32 @@
   <div style="overflow:scroll; width: 800px; height: 550px; border: solid; border-radius: 9px" id="display"></div>-->
 
   <script>
-
-    $(function() {
-      $(".circle")
-        .on("animationend", function(){
-          $(this).removeClass('animateLocal');
-        });
-    });
-
+    
     $(function() {
       $(".circle")
         .on("click", function(){
-          $(this).addClass('animateLocal');
-        })
+          //$(this).addClass('animateLocal');
+          var query = "#" + $(this).attr('id') + ".animator";
+          $(query).addClass("animateLocal").on("animationend", function(){
+            $(this).removeClass("animateLocal");
+          });
+      });
     });
-
     
+    /*
+    var elementA = document.getElementById("A");
+    elementA.onclick = function(){
+      console.log("DIDTHISWORK?");
+      var anim = document.createElement("div");
+      anim.classList.add("circle");
+      anim.classList.add("animateLocal");
+      anim.setAttribute("id", "A");
+      console.log(anim);
+      anim.onanimationend = function(){
+        this.parentNode.removeChild(this);
+      }
+    }
+    */
 
     //var sock =new WebSocket("ws://localhost:5001");
     var sock =new WebSocket("ws://34.249.128.145:3000");  //replace this address with the one the node.js server prints out. keep port 3000
@@ -149,9 +179,9 @@
     };
 
     sock.onmessage=function(event){
-    console.log(event);//show received from server data in console of browser
-    display.innerHTML+=event.data+"<br />"; //add incoming message from server to the log screen previous string + new string(message)
-
+      console.log(event);//show received from server data in console of browser
+      popExternal(event);
+      
     }
     
     function myFunction(event) {
@@ -168,6 +198,14 @@
         }
       } 
     }
+
+    function popExternal(_id){
+      var query = "#" + _id + ".animator";
+          $(query).addClass("animateExternal").on("animationend", function(){
+            $(this).removeClass("animateExternal");
+          });
+    }
+
     function clearlog(){
       display.innerHTML="";
     }
@@ -175,6 +213,17 @@
     function sendNum(_in){
       console.log(_in.id);
       sock.send(_in.id);
+      /*
+      console.log("DIDTHISWORK?");
+      var anim = document.createElement("div");
+      anim.classList.add("circle");
+      anim.classList.add("animateLocal");
+      anim.setAttribute("id", "A");
+      console.log(anim);
+      anim.onanimationend = function(){
+        this.parentNode.removeChild(this);
+      }
+      */
     }
     
   </script>
