@@ -179,8 +179,8 @@
     };
 
     sock.onmessage=function(event){
-      console.log(event.data);//show received from server data in console of browser
-      //popExternal(event);
+      console.log(event.data.slice(-1));//show received from server data in console of browser
+      popExternal(event.data.slice(-1));
       
     }
     
