@@ -150,6 +150,8 @@
 
   let sketch = function(p) {
 
+    var sock;
+
     p.animations = [];
     p.clickers = [
 
@@ -163,6 +165,25 @@
     p.setup = function(){
       p.createCanvas(1280, 720);
       p.background(0,0,0,0);
+
+      sock = new WebSocket("ws://10.196.251.105:3000");
+
+      sock.onopen = function(event){
+        //alert("Socket connected succesfully!!!")
+        setTimeout(function(){sock.send('connection succeeded');},1000);
+        console.log("Connection Succeeded");
+      }
+
+      sock.onmessage = function(event){
+
+        if(event.data.split(",")[1] != null){
+          //console.log(event.data.split(",")[0].slice(11), event.data.split(",")[1]);
+          p.registerAnim(event.data.split(",")[0].slice(11), event.data.split(",")[1], 255);
+          //console.log();
+        }
+
+}
+
     }
 
     p.draw = function(){
@@ -191,81 +212,38 @@
       for(var i=0; i<p.clickers.length; i++){
         if(p.currentDist > p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy)){
           p.currentDist = p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy);
-          //console.log(p.currentDist);
           p.currentId = p.clickers[i].id;
         }
       }
 
-      //console.log(p.currentDist);
-      //console.log(p.currentId);
       sock.send(p.currentId);
-      var XYOBJ = {posx:p.mouseX, posy:p.mouseY};
+      var XYOBJ = p.mouseX.toString() + ',' + p.mouseY.toString();
+      console.log(XYOBJ);
       sock.send(XYOBJ);
 
     }
 
-    p.registerAnim = function(_x,_y){
-      p.animations.push({posx : _x, posy: _y, timeLeft: 5000});
+    p.registerAnim = function(_x,_y,_hue){
+      p.animations.push({posx : _x, posy: _y, timeLeft: 5000, hue: _hue});
 
     }
+
+    
+
+    
 
 
 
   };
   new p5(sketch, 'container');
 
-
-    /*
-    $(function() {
-      $(".circle")
-        .on("click", function(){
-          //$(this).addClass('animateLocal');
-          var query = "#" + $(this).attr('id') + ".animator";
-          $(query).addClass("animateLocal").on("animationend", function(){
-            $(this).removeClass("animateLocal");
-          });
-      });
-    });
-    */
-    /*
-    var elementA = document.getElementById("A");
-    elementA.onclick = function(){
-      console.log("DIDTHISWORK?");
-      var anim = document.createElement("div");
-      anim.classList.add("circle");
-      anim.classList.add("animateLocal");
-      anim.setAttribute("id", "A");
-      console.log(anim);
-      anim.onanimationend = function(){
-        this.parentNode.removeChild(this);
-      }
-    }
-    */
-
-    //var sock =new WebSocket("ws://localhost:5001");
-    var sock =new WebSocket("ws://10.196.251.105:3000");  //replace this address with the one the node.js server prints out. keep port 3000
-    var display=document.getElementById("display")
+  
+    //var sock = new WebSocket("ws://10.196.251.105:3000");  //replace this address with the one the node.js server prints out. keep port 3000
+    //var display = document.getElementById("display");
     
-    sock.onopen=function(event){
-      //alert("Socket connected succesfully!!!")
-      setTimeout(function(){sock.send('connection succeeded');},1000);
-      //display.innerHTML+="connection succeeded <br />";
-      console.log("Connection Succeeded");
-    };
-
-    sock.onmessage=function(event){
-      console.log(event.data.slice(-1));//show received from server data in console of browser
-      //popExternal(event.data.slice(-1));
-      //p.registerAnim()
-      if(event.data.slice(-1) == 'A'){
-        console.log('A');
-      }
-
-      console.log(event.data.posx, event.data.posy);
-
-      
-    }
+     
     
+    /*
     function myFunction(event) {
         //sock.send("Hello");
       if(event.keyCode==13){     //when enter is pressed...
@@ -280,18 +258,7 @@
         }
       } 
     }
-
-
-    function popExternal(_id){
-      var query = "#" + _id + ".animator";
-          $(query).addClass("animateExternal").on("animationend", function(){
-            $(this).removeClass("animateExternal");
-          });
-    }
-
-    function clearlog(){
-      display.innerHTML="";
-    }
+    */
     
   </script>
 
