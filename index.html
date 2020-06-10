@@ -165,6 +165,7 @@
     p.setup = function(){
       p.createCanvas(1280, 720);
       p.background(0,0,0,0);
+      p.colorMode(p.HSB);
 
       sock = new WebSocket("ws://10.196.251.105:3000");
 
@@ -182,7 +183,7 @@
           //console.log();
         }
 
-}
+      }
 
     }
 
@@ -191,10 +192,12 @@
       p.noFill();
 
       for(var i=0; i<p.clickers.length; i++){
+        p.stroke(255,255,255);
         p.ellipse(p.clickers[i].posx,p.clickers[i].posy,100,100);
       }
 
       for(var i=0; i<p.animations.length; i++){
+        p.stroke(p.animations[i].hue,255,255);
         p.ripple = p.ellipse(p.animations[i].posx,p.animations[i].posy,p.map(p.animations[i].timeLeft,5000,0,200,0),p.map(p.animations[i].timeLeft,5000,0,200,0));
         p.animations[i].timeLeft -= 50;
         if(p.animations[i].timeLeft < 0){
@@ -204,7 +207,7 @@
     }
 
     p.mouseClicked = function() {
-      p.registerAnim(p.mouseX, p.mouseY);
+      p.registerAnim(p.mouseX, p.mouseY, 128);
 
       p.currentDist = 2000;
       p.currentId = "";
