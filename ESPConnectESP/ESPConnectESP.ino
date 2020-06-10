@@ -52,25 +52,25 @@ void loop() {
     if (data.length() > 0) {
       //Serial.println("WAGWAN");
       Serial.println(data);
-      if(data == "broadcast: 1"){
+      if(data == "broadcast: A"){
         Serial.println("Flashed 1");
         digitalWrite(D0, HIGH);
         delay(300);
         digitalWrite(D0, LOW);
       }
-      if(data == "broadcast: 2"){
+      if(data == "broadcast: B"){
         Serial.println("Flashed 2");
         digitalWrite(D1, HIGH);
         delay(300);
         digitalWrite(D1, LOW);
       }
-      if(data == "broadcast: 3"){
+      if(data == "broadcast: C"){
         Serial.println("Flashed 3");
         digitalWrite(D2, HIGH);
         delay(300);
         digitalWrite(D2, LOW);
       }
-      if(data == "broadcast: 4"){
+      if(data == "broadcast: D"){
         Serial.println("Flashed 4");
         digitalWrite(D3, HIGH);
         delay(300);
