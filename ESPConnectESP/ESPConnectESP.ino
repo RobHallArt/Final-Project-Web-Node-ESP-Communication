@@ -6,7 +6,7 @@ String data= "";
 char path[] = "/";   //identifier of this device
 const char* ssid     = "showAP";
 const char* password = "4000HZ-AP";
-char* host = "54.217.14.98";  //replace this ip address with the ip address of your Node.Js server
+char* host = "ec2-63-32-91-53.eu-west-1.compute.amazonaws.com";  //replace this ip address with the ip address of your Node.Js server
 const int espport= 3000;
   
 WebSocketClient webSocketClient;
