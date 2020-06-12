@@ -41,4 +41,4 @@ console.log("lost one client");
 //ws.send("new client connected");
 console.log("new client connected");
 });
-server.listen(process.env.PORT || 8080, "172.31.43.215");
+server.listen(3000);
