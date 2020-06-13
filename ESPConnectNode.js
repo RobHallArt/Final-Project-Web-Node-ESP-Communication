@@ -2,7 +2,7 @@
 var bodyParser = require("body-parser");
 const express = require('express'); //express framework to have a higher level of methods
 const app = express(); //assign app variable the express class/method
-var http = require('http');
+var http = require('https');
 var path = require("path");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -14,6 +14,7 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 })
 /**********************websocket setup**************************************************************************************/
 //var expressWs = require('express-ws')(app,server);
+
 const WebSocket = require('ws');
 const s = new WebSocket.Server({ server });
 //when browser sends get request, send html file to browser
