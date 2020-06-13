@@ -11,11 +11,14 @@ var credentials = { key: privateKey, cert: certificate };
 var bodyParser = require("body-parser");
 const express = require('express'); //express framework to have a higher level of methods
 const app = express(); //assign app variable the express class/method
-var http = require('https');
+var http = require('http');
+var https = require('https');
 var path = require("path");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const server = http.createServer(app);//create a server
+var httpsServer = https.createServer(credentials);
+httpsServer.listen(8443);
 //***************this snippet gets the local ip of the node.js server. copy this ip to the client side code and add ':3000' *****
 //****************exmpl. 192.168.56.1---> var sock =new WebSocket("ws://192.168.56.1:3000");*************************************
 require('dns').lookup(require('os').hostname(), function (err, add, fam) {
