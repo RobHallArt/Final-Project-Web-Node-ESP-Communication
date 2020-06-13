@@ -41,4 +41,4 @@ console.log("lost one client");
 //ws.send("new client connected");
 console.log("new client connected");
 });
-server.listen(3000);
+server.listen(30000);
