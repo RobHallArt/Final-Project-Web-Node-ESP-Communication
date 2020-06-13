@@ -6,15 +6,15 @@ String data= "";
 char path[] = "/";   //identifier of this device
 const char* ssid     = "showAP";
 const char* password = "4000HZ-AP";
-char* host = "ec2-63-32-91-53.eu-west-1.compute.amazonaws.com";  //replace this ip address with the ip address of your Node.Js server
-const int espport= 3000;
+char* host = "robhallnode.a2hosted.com";  //replace this ip address with the ip address of your Node.Js server
+const int espport= 35000;
   
 WebSocketClient webSocketClient;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
 unsigned long interval=300; //interval for sending data to the websocket server in ms
 // Use WiFiClient class to create TCP connections
-WiFiClient client;
+WiFiClientSecure client;
 void setup() {
   Serial.begin(115200);
     pinMode(D0, OUTPUT);
