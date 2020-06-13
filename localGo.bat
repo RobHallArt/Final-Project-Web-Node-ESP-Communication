@@ -1,0 +1,2 @@
+node LocalRelay.js
+pause

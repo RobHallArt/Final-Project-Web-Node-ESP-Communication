@@ -7,14 +7,14 @@ char path[] = "/";   //identifier of this device
 const char* ssid     = "showAP";
 const char* password = "4000HZ-AP";
 char* host = "robhallnode.a2hosted.com";  //replace this ip address with the ip address of your Node.Js server
-const int espport= 35000;
+const int espport= 8443;
   
 WebSocketClient webSocketClient;
 unsigned long previousMillis = 0;
 unsigned long currentMillis;
 unsigned long interval=300; //interval for sending data to the websocket server in ms
 // Use WiFiClient class to create TCP connections
-WiFiClientSecure client;
+WiFiClient client;
 void setup() {
   Serial.begin(115200);
     pinMode(D0, OUTPUT);

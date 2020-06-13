@@ -3,8 +3,9 @@ var fs = require('fs');
 // read ssl certificate
 var privateKey = fs.readFileSync('pk.pem', 'utf8');
 var certificate = fs.readFileSync('cert.pem', 'utf8');
+var caS = fs.readFileSync('CA.pem', 'utf8');
 
-var credentials = { key: privateKey, cert: certificate };
+var credentials = { key: privateKey, cert: certificate, ca:caS };
 
 
 /**************************websocket_example.js*************************************************/
@@ -17,11 +18,7 @@ var https = require('https');
 var path = require("path");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-appb.use(bodyParser.urlencoded({ extended: false }));
-appb.use(bodyParser.json());
 const server = http.createServer(app);//create a server
-const serverb = http.createServer(appb);//create a server
 var httpsServer = https.createServer(credentials);
 httpsServer.listen(8443);
 //***************this snippet gets the local ip of the node.js server. copy this ip to the client side code and add ':3000' *****
@@ -33,9 +30,9 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 //var expressWs = require('express-ws')(app,server);
 
 const WebSocket = require('ws');
-const WebSocketB = require('ws');
+
 const s = new WebSocket.Server({ server:httpsServer });
-const sb = new WebSocketB.Server({ server });
+
 //when browser sends get request, send html file to browser
 // viewed at http://localhost:30000
 app.get('/', function(req, res) {
@@ -56,28 +53,8 @@ s.on('connection',function(ws,req){
         client.send("broadcast: " +message);
       }
     });
-    sb.clients.forEach(function(client){ //broadcast incoming message to all clients (s.clients)
-      if(client!=ws && client.readyState ){ //except to the same client (ws) that sent this message
-        client.send("broadcast: " +message);
-      }
-    });
-// ws.send("From Server only to sender: "+ message); //send to client where message is from
-  });
-});
-
-
-sb.on('connection',function(ws,req){
-/******* when server receives messsage from client trigger function with argument message *****/
-  ws.on('message',function(message){
-    console.log("Received: "+message);
-    sb.clients.forEach(function(client){ //broadcast incoming message to all clients (s.clients)
-      if(client!=ws && client.readyState ){ //except to the same client (ws) that sent this message
-        client.send("broadcast: " +message);
-      }
-    });
 // ws.send("From Server only to sender: "+ message); //send to client where message is from
   });
 });
 
 server.listen(30000);
-serverb.listen(35000);
