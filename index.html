@@ -61,6 +61,13 @@
       height:100px
     }
 
+    #remoteVideo{
+      max-width: 1280!important;
+      max-height: 720!important;
+      width: 1280!important;
+      height:720!important
+    }
+
     @keyframes expandCircleLocal {
       100% {border-color: transparent; transform: scale(2);}
       93% {border-color: red; transform: scale(0.1);}
@@ -115,9 +122,12 @@
       var player = new Twitch.Player("PLAYER", options);
       player.setVolume(0);
   </script>
-  -->
+  
 
   <iframe width="1280" height="720" style="position: absolute; left: 0px; top: 0px; z-index: 1;" src="//ec2-54-78-219-173.eu-west-1.compute.amazonaws.com:5080/WebRTCAppEE/play.html?name=261955631242962276788824" frameborder="0" allowfullscreen></iframe>
+  -->
+
+  <!--<iframe width="1280" height="720" src="https://www.youtube.com/embed/6_trw4NNapk?controls=0?mute=1?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
   
   <div class="grid-container">
 
@@ -141,12 +151,14 @@
     <div class="grid-item" onclick="sendNum(this)" id="6" style="position: absolute; left: 200px; top: 400px; width:20px; height:20px">6</div>
     <div class="grid-item" onclick="sendNum(this)" id="7" style="position: absolute; left: 300px; top: 200px; width:20px; height:20px">7</div>
     <div class="grid-item" onclick="sendNum(this)" id="8" style="position: absolute; left: 900px; top: 100px; width:20px; height:20px">8</div>
-    <div class="grid-item" onclick="sendNum(this)" id="9" style="position: absolute; left: 800px; top: 300px; width:20px; height:20px">9</div>-->
-
+    <div class="grid-item" onclick="sendNum(this)" id="9" style="position: absolute; left: 800px; top: 300px; width:20px; height:20px">9</div>
+    -->
   </div>
   <div id="container" style="position: absolute; left: 0px; top: 0px; z-index: 2;"></div>
+  
   <p style="position:absolute; left:0px; top:770px">Click on the circles to make ripples in the water. Red Ripples are Yours, Blue are caused by other people.</p>
   <p style="position:absolute; left:0px; top:800px">In the coming days I want to change this so the ripples can overlap by making each it's own element.</p>
+  <iframe width="1280" height="720" style="position: absolute; left: 0px; top: 0px; z-index: 1;" src="//ec2-54-78-219-173.eu-west-1.compute.amazonaws.com:5080/WebRTCAppEE/play.html?name=261955631242962276788824" frameborder="0" allowfullscreen></iframe>
 
   <!--<button onclick="clearlog()">Clear Logs</button>
 
@@ -174,7 +186,7 @@
       p.background(0,0,0,0);
       p.colorMode(p.HSB);
 
-      sock = new WebSocket("ws://ec2-34-253-145-121.eu-west-1.compute.amazonaws.com:3000");
+      sock = new WebSocket("ws://localhost:3000");
 
       sock.onopen = function(event){
         //alert("Socket connected succesfully!!!")
@@ -237,12 +249,6 @@
       p.animations.push({posx : _x, posy: _y, timeLeft: 5000, hue: _hue});
 
     }
-
-    
-
-    
-
-
 
   };
   new p5(sketch, 'container');
