@@ -254,8 +254,8 @@
     p.registerAnim = function(_x,_y,_hue){
       p.currentDist = 2000;
       p.currentClicker = "";
-      //cy = _y;
-      //cx = _x;
+      cy = _y;
+      cx = _x;
       console.log(_x,_y);
       for(var i=0; i<p.clickers.length; i++){
         if(p.currentDist > p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy)){
@@ -264,7 +264,7 @@
         }
       }
 
-      p.animations.push({posx : _x, posy: _y, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
+      p.animations.push({posx : cx, posy: cy, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
       console.log(p.currentClicker.posx,p.currentClicker.posy);
     }
 
