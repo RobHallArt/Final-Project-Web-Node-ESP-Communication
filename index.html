@@ -197,7 +197,7 @@
       sock.onmessage = function(event){
 
         if(event.data.split(",")[1] != null){
-          console.log(event.data.split(",")[0].slice(11), event.data.split(",")[1]);
+          //console.log(event.data.split(",")[0].slice(11), event.data.split(",")[1]);
           p.registerAnim(parseInt(event.data.split(",")[0].slice(11)), parseInt(event.data.split(",")[1]), 255);
           //console.log();
         }
@@ -217,7 +217,7 @@
 
       for(var i=0; i<p.animations.length; i++){
         p.stroke(p.animations[i].hue,255,255);
-        console.log(p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx),
+        //console.log(p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx),
                               p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posy,p.animations[i].finy));
 
         p.ripple = p.ellipse( p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx),
@@ -265,7 +265,7 @@
       }
 
       p.animations.push({posx : cx, posy: cy, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
-      console.log(p.currentClicker.posx,p.currentClicker.posy);
+      //console.log(p.currentClicker.posx,p.currentClicker.posy);
     }
 
   };
