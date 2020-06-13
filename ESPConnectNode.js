@@ -1,8 +1,17 @@
+var fs = require('fs');
+
+// read ssl certificate
+var privateKey = fs.readFileSync('pk.pem', 'utf8');
+var certificate = fs.readFileSync('cert.pem', 'utf8');
+
+var credentials = { key: privateKey, cert: certificate };
+
+
 /**************************websocket_example.js*************************************************/
 var bodyParser = require("body-parser");
 const express = require('express'); //express framework to have a higher level of methods
 const app = express(); //assign app variable the express class/method
-var http = require('http');
+var http = require('https');
 var path = require("path");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -16,7 +25,7 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 //var expressWs = require('express-ws')(app,server);
 
 const WebSocket = require('ws');
-const s = new WebSocket.Server({ server });
+const s = new WebSocket.Server({ server:httpsServer });
 //when browser sends get request, send html file to browser
 // viewed at http://localhost:30000
 app.get('/', function(req, res) {

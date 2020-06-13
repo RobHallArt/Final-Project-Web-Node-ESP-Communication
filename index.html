@@ -84,8 +84,8 @@
 
   </style>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="http://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
 
 </head>
 <body>
@@ -106,7 +106,7 @@
   <!--<iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/DlvZrr1d-jg?rel=0&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
 
   
-  <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+  <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
   <div id="PLAYER" style="position: absolute; left: 0px; top: 0px; z-index: 1;"></div>
   <script type="text/javascript">
       var options = {
@@ -186,7 +186,7 @@
       p.background(0,0,0,0);
       p.colorMode(p.HSB);
 
-      sock = new WebSocket("ws://robhallnode.athosted.com");
+      sock = new WebSocket("wss://robhallnode.athosted.com");
 
       sock.onopen = function(event){
         //alert("Socket connected succesfully!!!")
