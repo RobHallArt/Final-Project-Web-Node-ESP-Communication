@@ -256,7 +256,7 @@
       p.currentClicker = "";
       //cy = _y;
       //cx = _x;
-
+      console.log(_x,_y);
       for(var i=0; i<p.clickers.length; i++){
         if(p.currentDist > p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy)){
           p.currentDist = p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy);
@@ -265,7 +265,7 @@
       }
 
       p.animations.push({posx : _x, posy: _y, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
-
+      console.log(p.currentClicker.posx,p.currentClicker.posy);
     }
 
   };
