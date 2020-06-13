@@ -158,7 +158,7 @@
   
   <p style="position:absolute; left:0px; top:770px">Click on the circles to make ripples in the water. Red Ripples are Yours, Blue are caused by other people.</p>
   <p style="position:absolute; left:0px; top:800px">In the coming days I want to change this so the ripples can overlap by making each it's own element.</p>
-  <iframe width="1280" height="720" style="position: absolute; left: 0px; top: 0px; z-index: 1;" src="//ec2-54-78-219-173.eu-west-1.compute.amazonaws.com:5080/WebRTCAppEE/play.html?name=261955631242962276788824" frameborder="0" allowfullscreen></iframe>
+  
 
   <!--<button onclick="clearlog()">Clear Logs</button>
 
@@ -186,7 +186,7 @@
       p.background(0,0,0,0);
       p.colorMode(p.HSB);
 
-      sock = new WebSocket("ws://robhallnode.athosted.com:30000");
+      sock = new WebSocket("wss://robhallnode.athosted.com:30000");
 
       sock.onopen = function(event){
         //alert("Socket connected succesfully!!!")
