@@ -217,7 +217,10 @@
 
       for(var i=0; i<p.animations.length; i++){
         p.stroke(p.animations[i].hue,255,255);
-        p.ripple = p.ellipse(p.animations[i].posx,p.animations[i].posy,p.map(p.animations[i].timeLeft,5000,0,200,0),p.map(p.animations[i].timeLeft,5000,0,200,0));
+        p.ripple = p.ellipse( p.map(p.animations[i].timeLeft,10000,0,p.animations[i].posx,p.animations[i].finx),
+                              p.map(p.animations[i].timeLeft,10000,0,p.animations[i].posy,p.animations[i].finy),
+                              p.map(p.animations[i].timeLeft,10000,0,200,0),
+                              p.map(p.animations[i].timeLeft,10000,0,200,0));
         p.animations[i].timeLeft -= 50;
         if(p.animations[i].timeLeft < 0){
           p.animations.splice(i,1);
@@ -246,7 +249,17 @@
     }
 
     p.registerAnim = function(_x,_y,_hue){
-      p.animations.push({posx : _x, posy: _y, timeLeft: 5000, hue: _hue});
+      p.currentDist = 2000;
+      p.currentClicker = "";
+
+      for(var i=0; i<p.clickers.length; i++){
+        if(p.currentDist > p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy)){
+          p.currentDist = p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy);
+          p.currentClicker = p.clickers[i];
+        }
+      }
+
+      p.animations.push({posx : _x, posy: _y, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
 
     }
 
