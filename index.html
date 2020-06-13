@@ -198,7 +198,7 @@
 
         if(event.data.split(",")[1] != null){
           console.log(event.data.split(",")[0].slice(11), event.data.split(",")[1]);
-          p.registerAnim(event.data.split(",")[0].slice(11), event.data.split(",")[1], 255);
+          p.registerAnim(parseInt(event.data.split(",")[0].slice(11)), parseInt(event.data.split(",")[1]), 255);
           //console.log();
         }
 
