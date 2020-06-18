@@ -1,0 +1,300 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Websocket</title>
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      padding: 0px;
+      width: 1280px;
+      height: 720px;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+    }
+
+    .circle {
+      border: 5px solid rgba(0, 0, 0, 0.8);
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+    }
+
+    .animateLocal{
+      animation: expandCircleLocal 5.5s;
+    }
+
+    .animateExternal{
+      animation: expandCircleExternal 5.5s;
+    }
+
+    #A {
+      position: absolute;
+      left: 400px;
+      top: 100px;
+      width:100px;
+      height:100px
+    }
+
+    #B {
+      position: absolute;
+      left: 800px;
+      top: 300px;
+      width:100px;
+      height:100px
+    }
+
+    #C {
+      position: absolute;
+      left: 200px;
+      top: 600px; 
+      width:100px; 
+      height:100px
+    }
+
+    #D {
+      position: absolute;
+      left: 600px;
+      top: 500px;
+      width:100px;
+      height:100px
+    }
+
+    #remoteVideo{
+      max-width: 1280!important;
+      max-height: 720!important;
+      width: 1280!important;
+      height:720!important
+    }
+
+    @keyframes expandCircleLocal {
+      100% {border-color: transparent; transform: scale(2);}
+      93% {border-color: red; transform: scale(0.1);}
+      50% {border-color: red;}
+      0% {border-color: transparent; transform: scale(2);}
+    }
+
+    @keyframes expandCircleExternal {
+      100% {border-color: transparent; transform: scale(2);}
+      93% {border-color: blue; transform: scale(0.1);}
+      50% {border-color: blue;}
+      0% {border-color: transparent; transform: scale(2);}
+    }
+
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+
+</head>
+<body>
+
+  <!--
+  <iframe
+    src="https://player.twitch.tv/?channel=RobertHallArt&muted=true"
+    height="720"
+    width="1280"
+    frameborder="0"
+    scrolling="no"
+    allowfullscreen="false"
+    controls= "false"
+    style="position: absolute; left: 0px; top: 0px; z-index: 1;">
+  </iframe>
+  -->
+
+  <!--<iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/DlvZrr1d-jg?rel=0&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+
+  
+  <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
+  <div id="PLAYER" style="position: absolute; left: 0px; top: 0px; z-index: 1;"></div>
+  <script type="text/javascript">
+      var options = {
+          width: 1280,
+          height: 720,
+          channel: "RobertHallArt",
+          controls: "false",
+          allowfullscreen: "false",
+          scrolling: "no",
+          frameborder: "0"
+      };
+      var player = new Twitch.Player("PLAYER", options);
+      player.setVolume(0);
+  </script>
+  
+  <!--
+  <iframe width="1280" height="720" style="position: absolute; left: 0px; top: 0px; z-index: 1;" src="//ec2-54-78-219-173.eu-west-1.compute.amazonaws.com:5080/WebRTCAppEE/play.html?name=261955631242962276788824" frameborder="0" allowfullscreen></iframe>
+  
+
+  <iframe width="1280" height="720" src="https://www.youtube.com/embed/6_trw4NNapk?controls=0?mute=1?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+  
+  <div class="grid-container">
+
+    <!--
+    <div class="circle animator" id="A"></div>
+    <div class="circle" id="A" onclick="sendNum(this)"></div>
+    <div class="circle animator" id="B"></div>
+    <div class="circle" id="B" onclick="sendNum(this)"></div>
+    <div class="circle animator" id="C"></div>
+    <div class="circle" id="C" onclick="sendNum(this)"></div>
+    <div class="circle animator" id="D"></div>
+    <div class="circle" id="D" onclick="sendNum(this)"></div>
+
+    
+    
+    <div class="grid-item circleA" onclick="sendNum(this)" id="1" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
+    <div class="grid-item circleA" onclick="sendNum(this)" id="2" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
+    <div class="grid-item circleA" onclick="sendNum(this)" id="4" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">4</div>
+    <div class="grid-item circleA" onclick="sendNum(this)" id="3" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">3</div>
+    <div class="grid-item" onclick="sendNum(this)" id="5" style="position: absolute; left: 1100px; top: 600px; width:20px; height:20px">5</div>
+    <div class="grid-item" onclick="sendNum(this)" id="6" style="position: absolute; left: 200px; top: 400px; width:20px; height:20px">6</div>
+    <div class="grid-item" onclick="sendNum(this)" id="7" style="position: absolute; left: 300px; top: 200px; width:20px; height:20px">7</div>
+    <div class="grid-item" onclick="sendNum(this)" id="8" style="position: absolute; left: 900px; top: 100px; width:20px; height:20px">8</div>
+    <div class="grid-item" onclick="sendNum(this)" id="9" style="position: absolute; left: 800px; top: 300px; width:20px; height:20px">9</div>
+    -->
+  </div>
+  <div id="container" style="position: absolute; left: 0px; top: 0px; z-index: 2;"></div>
+  
+  <p style="position:absolute; left:0px; top:770px">Click on the circles to make ripples in the water. Red Ripples are Yours, Blue are caused by other people.</p>
+  <p style="position:absolute; left:0px; top:800px">In the coming days I want to change this so the ripples can overlap by making each it's own element.</p>
+  
+
+  <!--<button onclick="clearlog()">Clear Logs</button>
+
+  <div style="overflow:scroll; width: 800px; height: 550px; border: solid; border-radius: 9px" id="display"></div>-->
+
+  <script>
+
+
+  let sketch = function(p) {
+
+    var sock;
+
+    p.animations = [];
+    p.clickers = [
+
+      {id: "A", posx: 400, posy: 100},
+      {id: "B", posx: 800, posy: 300},
+      {id: "C", posx: 200, posy: 600},
+      {id: "D", posx: 600, posy: 500}
+
+    ]
+
+    p.setup = function(){
+      p.createCanvas(1280, 720);
+      p.background(0,0,0,0);
+      p.colorMode(p.HSB);
+
+      sock = new WebSocket("ws://10.196.251.105:3000");
+
+      sock.onopen = function(event){
+        //alert("Socket connected succesfully!!!")
+        setTimeout(function(){sock.send('connection succeeded');},1000);
+        console.log("Connection Succeeded");
+      }
+
+      sock.onmessage = function(event){
+
+        if(event.data.split(",")[1] != null){
+          //console.log(event.data.split(",")[0].slice(11), event.data.split(",")[1]);
+          p.registerAnim(parseInt(event.data.split(",")[0].slice(11)), parseInt(event.data.split(",")[1]), 255);
+          //console.log();
+        }
+
+      }
+
+    }
+
+    p.draw = function(){
+      p.clear();
+      p.noFill();
+
+      /*
+      for(var i=0; i<p.clickers.length; i++){
+        p.stroke(255,255,255);
+        p.ellipse(p.clickers[i].posx,p.clickers[i].posy,100,100);
+      }
+      */
+
+      for(var i=0; i<p.animations.length; i++){
+        p.stroke(p.animations[i].hue,255,255);
+        //console.log(p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx),p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posy,p.animations[i].finy));
+        
+        p.ripple = p.ellipse( p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx),
+                              p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posy,p.animations[i].finy),
+                              p.map(p.animations[i].timeLeft,10000,0,200,0),
+                              p.map(p.animations[i].timeLeft,10000,0,200,0));
+        p.animations[i].timeLeft -= 50;
+        if(p.animations[i].timeLeft < 0){
+          p.animations.splice(i,1);
+        }
+      }
+    }
+
+    p.mouseClicked = function() {
+      p.registerAnim(p.mouseX, p.mouseY, 128);
+
+      p.currentDist = 2000;
+      p.currentId = "";
+
+      for(var i=0; i<p.clickers.length; i++){
+        if(p.currentDist > p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy)){
+          p.currentDist = p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy);
+          p.currentId = p.clickers[i].id;
+        }
+      }
+
+      sock.send(p.currentId);
+      var XYOBJ = p.mouseX.toString() + ',' + p.mouseY.toString();
+      console.log(XYOBJ);
+      sock.send(XYOBJ);
+
+    }
+
+    p.registerAnim = function(_x,_y,_hue){
+      p.currentDist = 2000;
+      p.currentClicker = "";
+      cy = _y;
+      cx = _x;
+      console.log(_x,_y);
+      for(var i=0; i<p.clickers.length; i++){
+        if(p.currentDist > p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy)){
+          p.currentDist = p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy);
+          p.currentClicker = p.clickers[i];
+        }
+      }
+
+      p.animations.push({posx : cx, posy: cy, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
+      //console.log(p.currentClicker.posx,p.currentClicker.posy);
+    }
+
+  };
+  new p5(sketch, 'container');
+
+  
+    //var sock = new WebSocket("ws://10.196.251.105:3000");  //replace this address with the one the node.js server prints out. keep port 3000
+    //var display = document.getElementById("display");
+    
+     
+    
+    /*
+    function myFunction(event) {
+        //sock.send("Hello");
+      if(event.keyCode==13){     //when enter is pressed...
+        var text=document.getElementById('eingabe').value;    //assign value of the entered string to te text variable
+        if(text!=""){     //if text is not an empty string
+      //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
+        sock.send(text);    //send string to server
+        display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
+        document.getElementById('eingabe').value="";     //and clear the input field
+        } else {
+          console.log("empty string not sent")
+        }
+      } 
+    }
+    */
+    
+  </script>
+
+</body>
+</html>
