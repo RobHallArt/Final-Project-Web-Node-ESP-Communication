@@ -1,5 +1,11 @@
 var fs = require('fs');
 
+// read ssl certificate
+var privateKey = fs.readFileSync('pk.pem', 'utf8');
+var certificate = fs.readFileSync('cert.pem', 'utf8');
+var caS = fs.readFileSync('CA.pem', 'utf8');
+
+var credentials = { key: privateKey, cert: certificate, ca:caS };
 
 
 /**************************websocket_example.js*************************************************/
@@ -8,10 +14,13 @@ const express = require('express'); //express framework to have a higher level o
 const app = express(); //assign app variable the express class/method
 const appb = express(); //assign app variable the express class/method
 var http = require('http');
+var https = require('https');
 var path = require("path");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const server = http.createServer(app);//create a server
+var httpsServer = https.createServer(credentials);
+httpsServer.listen(443);
 //***************this snippet gets the local ip of the node.js server. copy this ip to the client side code and add ':3000' *****
 //****************exmpl. 192.168.56.1---> var sock =new WebSocket("ws://192.168.56.1:3000");*************************************
 require('dns').lookup(require('os').hostname(), function (err, add, fam) {
@@ -22,7 +31,7 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 
 const WebSocket = require('ws');
 
-const s = new WebSocket.Server({ server });
+const s = new WebSocket.Server({ server:httpsServer });
 
 //when browser sends get request, send html file to browser
 // viewed at http://localhost:30000
@@ -48,4 +57,4 @@ s.on('connection',function(ws,req){
   });
 });
 
-server.listen(3000);
+server.listen(80);

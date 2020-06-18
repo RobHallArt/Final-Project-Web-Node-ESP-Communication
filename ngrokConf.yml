@@ -1,0 +1,10 @@
+authtoken: 1dUSo6zx62HbzmUqQJgAkX8vHFr_4RX95WW11tvQMNi7nVvh9
+region: eu
+tunnels:
+  first-app:
+    addr: 80
+    proto: http
+
+  second-app:
+    addr: 443
+    proto: http

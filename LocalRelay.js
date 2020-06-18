@@ -7,15 +7,15 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 })
 
 
-const wss = new WebSocket.Server({ port: 3000 })
+const ws = new WebSocket.Server({ port: 3000 })
 
-wss.on('connection', ws => {
-
-    const url = 'wss://robhallnode.a2hosted.com:8443'
+ws.on('connection', ws => {
+    console.log("ServerStarted");
+    const url = "wss://43c2341cc28c.eu.ngrok.io:443"
     const connection = new WebSocket(url)
 
     //const wss = new WebSocket.Server({ port: 3000 })
-
+    
     
 
 
