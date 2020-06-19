@@ -1,60 +1,59 @@
-var fs = require('fs');
+var fs = require('fs'); // Import filesystem library
 
-// read ssl certificate
+// Read ssl certificate
 var privateKey = fs.readFileSync('pk.pem', 'utf8');
 var certificate = fs.readFileSync('cert.pem', 'utf8');
 var caS = fs.readFileSync('CA.pem', 'utf8');
 
-var credentials = { key: privateKey, cert: certificate, ca:caS };
+var credentials = { key: privateKey, cert: certificate, ca:caS }; // put the certificates into a credentials object
 
 
-/**************************websocket_example.js*************************************************/
-var bodyParser = require("body-parser");
-const express = require('express'); //express framework to have a higher level of methods
-const app = express(); //assign app variable the express class/method
-const appb = express(); //assign app variable the express class/method
-var http = require('http');
+
+var bodyParser = require("body-parser");  // Import Body-parser library
+const express = require('express'); // Import Express server library
+const app = express(); // Assign app variable the express class/method
+
+// Import methods to serve http, https and read paths.
+var http = require('http'); 
 var https = require('https');
 var path = require("path");
+
+// Set up bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const server = http.createServer(app);//create a server
-var httpsServer = https.createServer(credentials);
+
+const server = http.createServer(app); // Create a server which will serve the website
+var httpsServer = https.createServer(credentials);  // Create a server which will handle the secure websockets over https
+
+// Set Ports for the servers to bind to (listen on)
+server.listen(80);
 httpsServer.listen(443);
-//***************this snippet gets the local ip of the node.js server. copy this ip to the client side code and add ':3000' *****
-//****************exmpl. 192.168.56.1---> var sock =new WebSocket("ws://192.168.56.1:3000");*************************************
-require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-  console.log('addr: '+add);
-})
-/**********************websocket setup**************************************************************************************/
-//var expressWs = require('express-ws')(app,server);
 
-const WebSocket = require('ws');
+console.log('Server Setup Succeeded');
 
-const s = new WebSocket.Server({ server:httpsServer });
+const WebSocket = require('ws'); // Import websockets Library
 
-//when browser sends get request, send html file to browser
-// viewed at http://localhost:30000
-app.get('/', function(req, res) {
-res.sendFile(path.join(__dirname + '/indexLocal.html'));
+const s = new WebSocket.Server({ server:httpsServer }); // Bind a new websocket server to the https server.
+
+app.get('/', function(req, res) {   // When there is a get request for the webpage
+  res.sendFile(path.join(__dirname + '/indexLocal.html'));  // Send the file 'indexLocal.html'
 });
-//*************************************************************************************************************************
-//***************************ws chat server********************************************************************************
-//app.ws('/echo', function(ws, req) {
 
 
+s.on('connection',function(ws,req){ // When we recieve a new connection from the websocket client (in this case the served webpage or the Local Relay node.js program)
 
-s.on('connection',function(ws,req){
-/******* when server receives messsage from client trigger function with argument message *****/
-  ws.on('message',function(message){
-    console.log("Received: "+message);
-    s.clients.forEach(function(client){ //broadcast incoming message to all clients (s.clients)
-      if(client!=ws && client.readyState ){ //except to the same client (ws) that sent this message
-        client.send("broadcast: " +message);
+  ws.on('message',function(message){ // When we get a message from a client (the served webpage)
+
+    console.log("Received: "+message); // Log the message to the console
+
+    s.clients.forEach(function(client){ // Broadcast incoming message to all clients (s.clients)
+
+      if(client!=ws && client.readyState ){ // Check if the client we are sending to is not the originator of the message, don't send it there to avoid a loop.
+
+        client.send("broadcast: " + message); // Send the message
+
       }
     });
-// ws.send("From Server only to sender: "+ message); //send to client where message is from
   });
 });
 
-server.listen(80);

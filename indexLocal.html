@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Websocket</title>
+  <title>Withdrawal - Remote Ripples</title>
   <style>
     .grid-container {
       display: grid;
@@ -13,75 +13,6 @@
       left: 0px;
       top: 0px;
     }
-
-    .circle {
-      border: 5px solid rgba(0, 0, 0, 0.8);
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-    }
-
-    .animateLocal{
-      animation: expandCircleLocal 5.5s;
-    }
-
-    .animateExternal{
-      animation: expandCircleExternal 5.5s;
-    }
-
-    #A {
-      position: absolute;
-      left: 400px;
-      top: 100px;
-      width:100px;
-      height:100px
-    }
-
-    #B {
-      position: absolute;
-      left: 800px;
-      top: 300px;
-      width:100px;
-      height:100px
-    }
-
-    #C {
-      position: absolute;
-      left: 200px;
-      top: 600px; 
-      width:100px; 
-      height:100px
-    }
-
-    #D {
-      position: absolute;
-      left: 600px;
-      top: 500px;
-      width:100px;
-      height:100px
-    }
-
-    #remoteVideo{
-      max-width: 1280!important;
-      max-height: 720!important;
-      width: 1280!important;
-      height:720!important
-    }
-
-    @keyframes expandCircleLocal {
-      100% {border-color: transparent; transform: scale(2);}
-      93% {border-color: red; transform: scale(0.1);}
-      50% {border-color: red;}
-      0% {border-color: transparent; transform: scale(2);}
-    }
-
-    @keyframes expandCircleExternal {
-      100% {border-color: transparent; transform: scale(2);}
-      93% {border-color: blue; transform: scale(0.1);}
-      50% {border-color: blue;}
-      0% {border-color: transparent; transform: scale(2);}
-    }
-
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -90,22 +21,8 @@
 </head>
 <body>
 
-  <!--
-  <iframe
-    src="https://player.twitch.tv/?channel=RobertHallArt&muted=true"
-    height="720"
-    width="1280"
-    frameborder="0"
-    scrolling="no"
-    allowfullscreen="false"
-    controls= "false"
-    style="position: absolute; left: 0px; top: 0px; z-index: 1;">
-  </iframe>
-  -->
+  <!-- The Twitch Javascript Embed system here because it can autodetect the URL to get round the issue of the parent URL changing every time the app is launched -->
 
-  <!--<iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/DlvZrr1d-jg?rel=0&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
-
-  
   <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
   <div id="PLAYER" style="position: absolute; left: 0px; top: 0px; z-index: 1;"></div>
   <script type="text/javascript">
@@ -119,180 +36,140 @@
           frameborder: "0"
       };
       var player = new Twitch.Player("PLAYER", options);
-      player.setVolume(0);
+      player.setVolume(0); // We mute the player to abide by Google Chrome's autoplay system (Non-muted autoplaying videos are no longer allowed (Normally I'd think thats great but not today))
   </script>
   
-  <!--
-  <iframe width="1280" height="720" style="position: absolute; left: 0px; top: 0px; z-index: 1;" src="//ec2-54-78-219-173.eu-west-1.compute.amazonaws.com:5080/WebRTCAppEE/play.html?name=261955631242962276788824" frameborder="0" allowfullscreen></iframe>
-  
+  <div class="grid-container"></div>
 
-  <iframe width="1280" height="720" src="https://www.youtube.com/embed/6_trw4NNapk?controls=0?mute=1?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
-  
-  <div class="grid-container">
-
-    <!--
-    <div class="circle animator" id="A"></div>
-    <div class="circle" id="A" onclick="sendNum(this)"></div>
-    <div class="circle animator" id="B"></div>
-    <div class="circle" id="B" onclick="sendNum(this)"></div>
-    <div class="circle animator" id="C"></div>
-    <div class="circle" id="C" onclick="sendNum(this)"></div>
-    <div class="circle animator" id="D"></div>
-    <div class="circle" id="D" onclick="sendNum(this)"></div>
-
-    
-    
-    <div class="grid-item circleA" onclick="sendNum(this)" id="1" style="position: absolute; left: 400px; top: 100px; width:100px; height:100px">1</div>
-    <div class="grid-item circleA" onclick="sendNum(this)" id="2" style="position: absolute; left: 800px; top: 300px; width:100px; height:100px">2</div>
-    <div class="grid-item circleA" onclick="sendNum(this)" id="4" style="position: absolute; left: 200px; top: 600px; width:100px; height:100px">4</div>
-    <div class="grid-item circleA" onclick="sendNum(this)" id="3" style="position: absolute; left: 600px; top: 500px; width:100px; height:100px">3</div>
-    <div class="grid-item" onclick="sendNum(this)" id="5" style="position: absolute; left: 1100px; top: 600px; width:20px; height:20px">5</div>
-    <div class="grid-item" onclick="sendNum(this)" id="6" style="position: absolute; left: 200px; top: 400px; width:20px; height:20px">6</div>
-    <div class="grid-item" onclick="sendNum(this)" id="7" style="position: absolute; left: 300px; top: 200px; width:20px; height:20px">7</div>
-    <div class="grid-item" onclick="sendNum(this)" id="8" style="position: absolute; left: 900px; top: 100px; width:20px; height:20px">8</div>
-    <div class="grid-item" onclick="sendNum(this)" id="9" style="position: absolute; left: 800px; top: 300px; width:20px; height:20px">9</div>
-    -->
-  </div>
+  <!-- This div will be where our P5.js sketch lives -->
   <div id="container" style="position: absolute; left: 0px; top: 0px; z-index: 2;"></div>
   
-  <p style="position:absolute; left:0px; top:770px">Click on the circles to make ripples in the water. Red Ripples are Yours, Blue are caused by other people.</p>
-  <p style="position:absolute; left:0px; top:800px">In the coming days I want to change this so the ripples can overlap by making each it's own element.</p>
+  <!-- Using absolute position throughout so I can sync up X/Y of mouse position with position on the fixed-resolution stream etc -->
+  <p style="position:absolute; left:0px; top:770px">Click on the circles to make ripples in the water. Green Ripples are Yours, Blue are caused by other people.</p>
   
-
-  <!--<button onclick="clearlog()">Clear Logs</button>
-
-  <div style="overflow:scroll; width: 800px; height: 550px; border: solid; border-radius: 9px" id="display"></div>-->
-
   <script>
 
+    let sketch = function(p) { // As we already made the container we need to make our sketch as a function.
 
-  let sketch = function(p) {
+      var sock; // Initialise the socket as a global variable so we can use it anywhere in the sketch.
 
-    var sock;
+      p.animations = []; // Make an array of current animations (starts empty as we only animate on click or message)
+      p.clickers = [
 
-    p.animations = [];
-    p.clickers = [
+        {id: "A", posx: 400, posy: 100},
+        {id: "B", posx: 800, posy: 300},
+        {id: "C", posx: 200, posy: 600},
+        {id: "D", posx: 600, posy: 500}
 
-      {id: "A", posx: 400, posy: 100},
-      {id: "B", posx: 800, posy: 300},
-      {id: "C", posx: 200, posy: 600},
-      {id: "D", posx: 600, posy: 500}
+      ] // Positions of Real clickers on the stream and the letter we need to send over the socket to trigger the ESP
 
-    ]
-
-    p.setup = function(){
-      p.createCanvas(1280, 720);
-      p.background(0,0,0,0);
-      p.colorMode(p.HSB);
-
-      sock = new WebSocket("wss://43c2341cc28c.eu.ngrok.io:443");
-
-      sock.onopen = function(event){
-        //alert("Socket connected succesfully!!!")
-        setTimeout(function(){sock.send('connection succeeded');},1000);
-        console.log("Connection Succeeded");
-      }
-
-      sock.onmessage = function(event){
-
-        if(event.data.split(",")[1] != null){
-          //console.log(event.data.split(",")[0].slice(11), event.data.split(",")[1]);
-          p.registerAnim(parseInt(event.data.split(",")[0].slice(11)), parseInt(event.data.split(",")[1]), 255);
-          //console.log();
-        }
-
-      }
-
-    }
-
-    p.draw = function(){
-      p.clear();
-      p.noFill();
-
-      /*
-      for(var i=0; i<p.clickers.length; i++){
-        p.stroke(255,255,255);
-        p.ellipse(p.clickers[i].posx,p.clickers[i].posy,100,100);
-      }
-      */
-
-      for(var i=0; i<p.animations.length; i++){
-        p.stroke(p.animations[i].hue,255,255);
-        //console.log(p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx),p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posy,p.animations[i].finy));
+      p.setup = function(){
         
-        p.ripple = p.ellipse( p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx),
-                              p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posy,p.animations[i].finy),
-                              p.map(p.animations[i].timeLeft,10000,0,200,0),
-                              p.map(p.animations[i].timeLeft,10000,0,200,0));
-        p.animations[i].timeLeft -= 50;
-        if(p.animations[i].timeLeft < 0){
-          p.animations.splice(i,1);
+        // Setup the canvas to match the resolution of the stream and be transparent.
+        p.createCanvas(1280, 720);
+        p.background(0,0,0,0);
+        // Set the colour mode to make it easy to change colour by rotating hue with one variable.
+        p.colorMode(p.HSB);
+
+        sock = new WebSocket("wss://43c2341cc28c.eu.ngrok.io:443"); // Initiate socket to secure hostname generated in NGROK tool. This line must be changed each time.
+        // If I had more time I'm sure I could find a way to set this from the server or if I payed for NGROK it would be the same every time.
+
+        sock.onopen = function(event){ // Open the websocket connection
+          setTimeout(function(){sock.send('connection succeeded');},1000); // Send a message to make sure a connection is established
+          console.log("Connection Succeeded"); // Log that we have success
         }
-      }
-    }
 
-    p.mouseClicked = function() {
-      p.registerAnim(p.mouseX, p.mouseY, 128);
+        sock.onmessage = function(event){ // When we recieve a message from another browser via the central server.
 
-      p.currentDist = 2000;
-      p.currentId = "";
+          if(event.data.split(",")[1] != null){ // Split the message in two using ',' as a break. If this works it is a message with x and y values and we can parse it.
+            /* This is an interesting section here because it gave me a few problems. the server sends mesages in the form 'broadcast: 218,456' so I have to remove the 'broadcast: '
+               from the start. I was also getting issues with the default javascript string to int typecasting as it was parsing them as floats so I manually intervined
+               to force the variables to be parsed as ints (parseint()).
+               These numbers are arguments in the registeranim function which adds a new animation to the array of current animations which is acted upon in the draw call*/
+            p.registerAnim(parseInt(event.data.split(",")[0].slice(11)), parseInt(event.data.split(",")[1]), 255);
+          }
 
-      for(var i=0; i<p.clickers.length; i++){
-        if(p.currentDist > p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy)){
-          p.currentDist = p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy);
-          p.currentId = p.clickers[i].id;
         }
-      }
 
-      sock.send(p.currentId);
-      var XYOBJ = p.mouseX.toString() + ',' + p.mouseY.toString();
-      console.log(XYOBJ);
-      sock.send(XYOBJ);
-
-    }
-
-    p.registerAnim = function(_x,_y,_hue){
-      p.currentDist = 2000;
-      p.currentClicker = "";
-      cy = _y;
-      cx = _x;
-      console.log(_x,_y);
-      for(var i=0; i<p.clickers.length; i++){
-        if(p.currentDist > p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy)){
-          p.currentDist = p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy);
-          p.currentClicker = p.clickers[i];
-        }
       }
 
-      p.animations.push({posx : cx, posy: cy, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
-      //console.log(p.currentClicker.posx,p.currentClicker.posy);
-    }
+      p.draw = function(){
+        // Clear the screen each frame
+        p.clear();
+        // Stop fills from rendering, only render strokes, outlines.
+        p.noFill();
 
-  };
-  new p5(sketch, 'container');
-
-  
-    //var sock = new WebSocket("ws://10.196.251.105:3000");  //replace this address with the one the node.js server prints out. keep port 3000
-    //var display = document.getElementById("display");
-    
-     
-    
-    /*
-    function myFunction(event) {
-        //sock.send("Hello");
-      if(event.keyCode==13){     //when enter is pressed...
-        var text=document.getElementById('eingabe').value;    //assign value of the entered string to te text variable
-        if(text!=""){     //if text is not an empty string
-      //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
-        sock.send(text);    //send string to server
-        display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
-        document.getElementById('eingabe').value="";     //and clear the input field
-        } else {
-          console.log("empty string not sent")
+        // UNCOMMENT BELOW TO DRAW FINAL POSITIONS OF CIRCLES (FOR CALIBRATION)
+        /*
+        for(var i=0; i<p.clickers.length; i++){
+          p.stroke(255,255,255);
+          p.ellipse(p.clickers[i].posx,p.clickers[i].posy,100,100);
         }
-      } 
-    }
-    */
+        */
+
+
+        for(var i=0; i<p.animations.length; i++){ // Loop through the array of current animations 
+
+          p.stroke(p.animations[i].hue,255,255); // Use the hue present in the object to draw the stroke
+         
+          p.ripple = p.ellipse( p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posx,p.animations[i].finx), // Map the start and end points for the animation to the start and end times so as the
+                                p.map(p.animations[i].timeLeft,10000,1,p.animations[i].posy,p.animations[i].finy), // time runs down the circle renders closer to the final point.
+                                p.map(p.animations[i].timeLeft,10000,0,200,0),  // Map the circle diameter to the time remaining so the circle shrinks as the time passes.
+                                p.map(p.animations[i].timeLeft,10000,0,200,0));
+          p.animations[i].timeLeft -= 50; // Decrement the time left for the current animation being rendered.
+          
+          if(p.animations[i].timeLeft < 0){ // If the time remaining is below 0
+            p.animations.splice(i,1); // Delete the animation
+          }
+        }
+      }
+
+      p.mouseClicked = function() { // When mouse clicked
+        p.registerAnim(p.mouseX, p.mouseY, 128);  // Start an animation with the current mouse X and Y as a start point.
+
+        // Initialise distance and ID variables before we loop through clickers.
+        p.currentDist = 2000;
+        p.currentId = "";
+
+        for(var i=0; i<p.clickers.length; i++){ // For each clicker (position of real actuator on screen)
+          if(p.currentDist > p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy)){ // Is the value of 'currentDist' bigger than the distance from the mouse to this clicker
+            p.currentDist = p.dist(p.mouseX,p.mouseY,p.clickers[i].posx,p.clickers[i].posy); // If so the current Distance is now the distance we just calculated,
+            p.currentId = p.clickers[i].id; // And the ID is the ID of that clicker.
+          }
+        }
+        // Once this loop /\/\/\/\  is complete the values of currentDist and CurrentID are the values of the closest clicker.
+        // This is a bit of a brute force method but there are only 4 clickers so It doesn't make much difference.
+        
+        sock.send(p.currentId); // Send the ID of the closest clicker to the ESP to activate it.
+        var XYOBJ = p.mouseX.toString() + ',' + p.mouseY.toString(); // Make a string of the X and Y variables of the mouse click to send to other browsers open concurrently to render the circle there.
+        console.log(XYOBJ); // Log this for debugging
+        sock.send(XYOBJ); // Send via websocket
+
+      }
+
+      // Function to register new animation.
+      p.registerAnim = function(_x,_y,_hue){ 
+        // Initialise distance and ID variables before we loop through clickers.
+        p.currentDist = 2000;
+        p.currentClicker = "";
+        cy = _y;
+        cx = _x;
+        
+        for(var i=0; i<p.clickers.length; i++){ // For each clicker (position of real actuator on screen)
+          if(p.currentDist > p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy)){ // Is the value of 'currentDist' bigger than the distance from the mouse to this clicker
+            p.currentDist = p.dist(_x,_y,p.clickers[i].posx,p.clickers[i].posy); // If so the current Distance is now the distance we just calculated,
+            p.currentClicker = p.clickers[i]; // And the ID is the ID of that clicker.
+          }
+        }
+        // Once this loop /\/\/\/\  is complete the values of currentDist and CurrentID are the values of the closest clicker.
+        // This is a bit of a brute force method but there are only 4 clickers so It doesn't make much difference.
+
+        // Push all this generated info into the animation buffer
+        p.animations.push({posx : cx, posy: cy, finx : p.currentClicker.posx, finy : p.currentClicker.posy, timeLeft: 10000, hue: _hue});
+      }
+
+    };
+    new p5(sketch, 'container'); // Create sketch in the Div with ID 'container'
     
   </script>
 
